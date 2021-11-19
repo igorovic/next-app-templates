@@ -3,5 +3,5 @@
 ## Usage
 
 ```
-create-next-app@latest --ts --use-npm --e https://github.com/<repo>/<template-name>
+npx create-next-app@latest --ts -e https://github.com/igorovic/next-app-templates --example-path base
 ```

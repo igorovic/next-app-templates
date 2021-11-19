@@ -1,3 +1,4 @@
+import { Counter } from "components/Counter";
 import type { NextPage } from "next";
 import Head from "next/head";
 
@@ -12,6 +13,7 @@ const Home: NextPage = () => {
 
       <main className="container">
         <h1>Start writing your app</h1>
+        <Counter />
       </main>
     </div>
   );
