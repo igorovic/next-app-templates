@@ -12,6 +12,7 @@ export default async function transaction(
   try {
     transaction = await initTransaction({
       ...payload,
+      autoSettle: true,
       redirect: {
         successUrl: "http://localhost:3000/payment/result",
         cancelUrl: "http://localhost:3000/payment/result",

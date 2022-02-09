@@ -5,8 +5,14 @@ import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
 //@ts-ignore
 import Lightbox from "react-datatrans-light-box";
+import CustomerForm from "components/CustomerForm";
+import CartItems from "components/CartItems";
+import { useAppSelector } from "app/hooks";
+import { customer } from "app/features/customer/customerSlice";
+import { initTransaction } from "app/api/payment/transaction";
 
 const Checkout: NextPage = () => {
+  const _customer = useAppSelector(customer);
   const [lightbox, showLightbox] = useState(false);
   const { data: dataCart } = useQuery(["cart", "retrieve"], async () =>
     commerce.cart.retrieve()
@@ -21,12 +27,30 @@ const Checkout: NextPage = () => {
     },
     { enabled: false }
   );
+
+  const { data: datatransTransaction, refetch: datatransRefetch } = useQuery(
+    ["datatrans", "init", "transation"],
+    async () =>
+      dataCart && dataCart.id ? initTransaction(dataCart?.id, _customer) : null,
+    { enabled: false }
+  );
+
   useEffect(() => {
     if (dataCart && !data) {
-      console.debug(dataCart.id);
+      console.debug(dataCart);
       refetch();
     }
-  }, [data]);
+  }, [data, dataCart, refetch]);
+
+  async function proceedPayment() {
+    await datatransRefetch();
+    showLightbox(true);
+  }
+
+  const onLoaded = () => console.log("Loaded");
+  const onOpened = () => console.log("Opened");
+  const onError = () => console.error("ERROR *****");
+  const onCancelled = () => showLightbox(false);
 
   return (
     <div>
@@ -36,15 +60,34 @@ const Checkout: NextPage = () => {
 
       <main className="container">
         <h1>Checkout</h1>
-        {isLoading ? <p>loading</p> : null}
-        <button
-          className="btn"
-          onClick={() => {
-            showLightbox(true);
-          }}
-        >
-          pay
-        </button>
+        <div className="grid grid-cols-2">
+          <CustomerForm />
+          {isLoading ? (
+            <p>...loading</p>
+          ) : (
+            <div className="flex flex-col max-w-sm">
+              <CartItems items={dataCart?.line_items || []} />
+              <div className="mt-8 flex justify-end font-bold">
+                Total:&nbsp;{dataCart?.subtotal.formatted_with_code}
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="mt-8">
+          <button className="btn" onClick={proceedPayment}>
+            pay
+          </button>
+        </div>
+        {lightbox ? (
+          <Lightbox
+            transactionId={datatransTransaction?.transactionId}
+            production={false}
+            onLoaded={onLoaded}
+            onOpened={onOpened}
+            onCancelled={onCancelled}
+            onError={onError}
+          />
+        ) : null}
       </main>
     </div>
   );
