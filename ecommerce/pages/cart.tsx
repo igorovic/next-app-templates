@@ -1,4 +1,3 @@
-import { Counter } from "components/Counter";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { commerce } from "lib/commerce";

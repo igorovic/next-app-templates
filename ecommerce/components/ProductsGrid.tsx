@@ -10,7 +10,7 @@ export default function ProductsGrid({ products }: Props) {
     commerce.cart.add(id, 1);
   }
   return (
-    <div className="grid grid-cols-12 m-4">
+    <div className="grid grid-cols-12 m-4 gap-2">
       {products.map((product, index) => {
         return (
           <div key={`product-${index}`} className="card  col-span-4 p-2 border">
