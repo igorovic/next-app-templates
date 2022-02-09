@@ -3,7 +3,10 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { initTransaction } from "lib/datatrans/init";
 
-export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
+export default async function transaction(
+  req: NextApiRequest,
+  res: NextApiResponse<any>
+) {
   const payload = req.body;
   let transaction;
   try {
@@ -19,4 +22,4 @@ export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
     console.error(e);
   }
   res.status(200).json(transaction);
-};
+}

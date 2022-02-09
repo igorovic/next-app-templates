@@ -18,6 +18,7 @@ export default function ProductsGrid({ products }: Props) {
               <figure>
                 <Image
                   layout="responsive"
+                  alt={product.name}
                   objectFit="cover"
                   key={`image-${index}`}
                   width={400}
