@@ -3,7 +3,7 @@
 ## Usage
 
 ```
-npx create-next-app@latest --ts -e https://github.com/igorovic/next-app-templates --example-path base
+npx create-next-app@latest --use-pnpm --ts -e https://github.com/igorovic/next-app-templates --example-path base
 ```
 
 ## Usefull packages references
