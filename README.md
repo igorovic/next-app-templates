@@ -2,11 +2,12 @@
 
 ## Usage
 
-```
+```shell
 npx create-next-app@latest --use-pnpm --ts -e https://github.com/igorovic/next-app-templates --example-path base
+```
+**OR**
 
-# OR
-
+```shell
 pnpm create next-app --ts -e https://github.com/igorovic/next-app-templates --example-path base
 ```
 
